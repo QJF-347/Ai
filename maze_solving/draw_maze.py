@@ -9,8 +9,9 @@ pygame.display.set_caption("maze")
 
 
 def load_maze(filename):
-    with open(filename , 'r') as file :
+    with open('maze', 'r' ) as file :
         return [list(line.strip()) for line in file]
+    
 run = True
 
 while run:
@@ -20,5 +21,5 @@ while run:
         if event.type == pygame.QUIT:
             run = False
     
-    print(load_maze('maze.txt'))
+    load_maze(1)
 pygame.quit()
