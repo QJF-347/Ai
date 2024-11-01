@@ -23,7 +23,7 @@ def load_maze(filename):
     with open(filename, 'r') as file:
         return [list(line.strip()) for line in file]
 
-maze = load_maze('maze_solving/mazes/maze2.txt') 
+maze = load_maze('maze_solving/mazes/maze3.txt') 
 def draw_maze(screen=screen, maze=maze, path=[], visited=[]):
     for row_idx, row in enumerate(maze):
         for col_idx, cell in enumerate(row):
@@ -48,7 +48,19 @@ def draw_maze(screen=screen, maze=maze, path=[], visited=[]):
 
 def main():
     run =  True
-    path, visited = dfs(maze, start, goal)
+    FPS = 60
+    generator = bfs(maze, start, goal)
+    clock = pygame.time.Clock()
+    
+    
+    try:
+        # Fetch the first path and visited nodes from the generator
+        path, visited = next(generator)
+    except StopIteration:
+        path, visited = [], [] 
+    
+    
+    
     while run:
         screen.fill("black")
         
@@ -56,8 +68,15 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
         
-        draw_maze(screen, maze, path if path else [], visited if visited else [])
+        try:
+            path, visited = next(generator)
+        except StopIteration:
+            pass
+            
+        
+        draw_maze(screen, maze, path ,visited)
         pygame.display.flip()
+        clock.tick(FPS)
     pygame.quit()
 
 if __name__ == "__main__":
