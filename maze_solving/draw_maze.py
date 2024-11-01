@@ -1,5 +1,5 @@
 import pygame
-from maze_solver import bfs
+from maze_solver import bfs, dfs
 
 pygame.init()
   
@@ -12,6 +12,8 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0) 
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("maze")
 
@@ -38,7 +40,7 @@ def draw_maze(screen=screen, maze=maze, path=[], visited=[]):
             pygame.draw.rect(screen, BLACK,(col_idx * CELL_SIZE, row_idx * CELL_SIZE, CELL_SIZE, CELL_SIZE), 1 )
 
     for (x, y) in visited:
-        pygame.draw.rect(screen, RED, (y * CELL_SIZE, x * CELL_SIZE, CELL_SIZE, CELL_SIZE), 3)
+        pygame.draw.rect(screen, YELLOW, (y * CELL_SIZE, x * CELL_SIZE, CELL_SIZE, CELL_SIZE), 3)
     
     for (x, y) in path:
         pygame.draw.rect(screen, BLUE, (y * CELL_SIZE, x * CELL_SIZE, CELL_SIZE, CELL_SIZE), 3)
@@ -46,7 +48,7 @@ def draw_maze(screen=screen, maze=maze, path=[], visited=[]):
 
 def main():
     run =  True
-    path, visited = bfs(maze, start, goal)
+    path, visited = dfs(maze, start, goal)
     while run:
         screen.fill("black")
         
