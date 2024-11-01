@@ -40,7 +40,7 @@ def dfs(maze, start, goal):
     directions = (0, 1), (1, 0), (-1, 0), (0, -1)
     
     while stack:
-        current = stack.pop() # first in fist out
+        current = stack.pop() # last in fist out
         if current == goal:
             path = []
             while current in came_from:
