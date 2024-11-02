@@ -17,13 +17,26 @@ YELLOW = (255, 255, 0)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("maze")
 
-start = (19, 0)
-goal = (5, 10)
+
+def find_start_goal(maze):
+    start = None
+    goal = None
+    for r, row in enumerate(maze):
+        for c, cell in enumerate(row):
+            if cell == 'S':
+                start = (r, c)
+            elif cell == 'G':
+                goal = (r, c)
+    return start, goal
+
+
 def load_maze(filename):
     with open(filename, 'r') as file:
         return [list(line.strip()) for line in file]
 
-maze = load_maze('maze_solving/mazes/maze3.txt') 
+maze = load_maze('maze_solving/mazes/maze4.txt') 
+start, goal = find_start_goal(maze)
+
 def draw_maze(screen=screen, maze=maze, path=[], visited=[]):
     for row_idx, row in enumerate(maze):
         for col_idx, cell in enumerate(row):
