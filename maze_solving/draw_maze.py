@@ -5,7 +5,7 @@ pygame.init()
   
 WIDTH, HEIGHT = 600, 600
 
-CELL_SIZE = 30
+CELL_SIZE = 10
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0) 
@@ -61,7 +61,7 @@ def draw_maze(screen=screen, maze=maze, path=[], visited=[]):
 
 def main():
     run =  True
-    FPS = 60
+    FPS = 100
     generator = bfs(maze, start, goal)
     clock = pygame.time.Clock()
     
@@ -83,6 +83,7 @@ def main():
         
         try:
             path, visited = next(generator)
+            pass
         except StopIteration:
             pass
             
