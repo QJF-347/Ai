@@ -34,7 +34,7 @@ def load_maze(filename):
     with open(filename, 'r') as file:
         return [list(line.strip()) for line in file]
 
-maze = load_maze('maze_solving/mazes/maze4.txt') 
+maze = load_maze('maze_solving/mazes/maze5.txt') 
 start, goal = find_start_goal(maze)
 
 def draw_maze(screen=screen, maze=maze, path=[], visited=[]):

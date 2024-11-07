@@ -4,21 +4,24 @@ def bfs(maze, start, goal):
     rows, cols = len(maze), len(maze[0])
     queue = deque([start])
     visited = set()
-    came_from = {}  # This will store the path (the predecessor of each node)
-    
-    directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]  # right, down, up, left
+    came_from = {}  
+    directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]  
+    goal_reached = False  
     
     while queue:
-        current = queue.popleft()  # BFS: first in, first out
+        current = queue.popleft()
         
         if current == goal:
-            # If goal is reached, reconstruct the path
+           
             path = []
             while current in came_from:
                 path.append(current)
                 current = came_from[current]
             path.append(start)
-            return path[::-1], visited  # Return the complete path from start to goal
+            queue = []
+            goal_reached = True 
+            yield path[::-1], visited  
+            return  
         
         visited.add(current)
         
@@ -31,36 +34,42 @@ def bfs(maze, start, goal):
                 
                 queue.append(neighbor)
                 visited.add(neighbor)
-                came_from[neighbor] = current  # Track the predecessor of the neighbor
+                came_from[neighbor] = current 
 
-        # For progress visualization/debugging, yield the current path from start to current node
-        path = []
-        temp = current
-        while temp in came_from:
-            path.append(temp)
-            temp = came_from[temp]
-        path.append(start)
-        yield path[::-1], visited  # Yield the current partial path for visualization
+      
+        if not goal_reached:
+            path = []
+            temp = current
+            while temp in came_from:
+                path.append(temp)
+                temp = came_from[temp]
+            path.append(start)
+            yield path[::-1], visited  
 
 
 def dfs(maze, start, goal):
     rows, cols = len(maze), len(maze[0])
-    stack = deque([start, ])
+    stack = deque([start])
     visited = set()
     came_from = {}
     
-    directions = (0, 1), (1, 0), (-1, 0), (0, -1)
+    directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+    goal_reached = False  
     
     while stack:
-        current = stack.pop() # last in fist out
+        current = stack.pop() 
         if current == goal:
-            path = []
+           
             while current in came_from:
                 path.append(current)
                 current = came_from[current]
             path.append(start)
-            return path[::-1], visited
+            goal_reached = True  
+            yield path[::-1], visited  
+            return 
+
         visited.add(current)
+
 
         for direction in directions:
             neighbor = (current[0] + direction[0], current[1] + direction[1])
@@ -71,10 +80,12 @@ def dfs(maze, start, goal):
                 visited.add(neighbor)
                 came_from[neighbor] = current 
             
-            path = []
-            temp = current
-            while temp in came_from:
-                path.append(temp)
-                temp = came_from[temp]
-            path.append(start)
-            yield path[::-1], visited 
+           
+            if not goal_reached:
+                path = []
+                temp = current
+                while temp in came_from:
+                    path.append(temp)
+                    temp = came_from[temp]
+                path.append(start)
+                yield path[::-1], visited  
